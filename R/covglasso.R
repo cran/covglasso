@@ -32,7 +32,7 @@ covglasso <- function(data = NULL,
       rho <- quantile( R[upper.tri(R)], seq(0,1, 1/L) )[-1]
       # rho <- seq(0,1, 1/L)
     } else {
-      if ( sum(range(rho)) > 1 ) stop("Vector 'rho' must contain values between 0 and 1")
+      if ( max(rho) > 1 | min(rho) < 0 ) stop("Vector 'rho' must contain values between 0 and 1")
       L <- length(rho)
     }
     lambda <- lapply( 1:L, function(l) {
