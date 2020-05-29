@@ -1,6 +1,6 @@
-e435f0c1b7947f4e1217dfc0a8d2d155 *DESCRIPTION
+f2fb544f05037bdb430eff9b9aa243ec *DESCRIPTION
 a26ff57ba11564a554913338c87017b4 *NAMESPACE
-7cef15115eafbe6a238d872443147788 *NEWS.md
+616f8ad11374fc888cc92a5680d3cf1f *NEWS.md
 c2272287bee21e323331de3a23435382 *R/RcppExports.R
 d30d879fb7bf21530fcefd77c26040a4 *R/covglasso.R
 aaadd1451af35a9a422c121ef7fafd20 *R/utils.R
@@ -10,5 +10,5 @@ bfeeb18dd0e758709080cc28b1e696f4 *man/covglasso-package.Rd
 afc79e56cfcda65ae9f16ce3f80a1d01 *man/covglasso.Rd
 2a6f9e9e044a78154d3cfda5936d6f48 *src/Makevars
 3fd962d378d6c26b6129266e08a07475 *src/RcppExports.cpp
-216138d43a73e5872903f24dfc350e58 *src/covglasso.cpp
+6c09ac90a208c9163b76eb4e61cf0e40 *src/covglasso.cpp
 1b79b25dc4142b8c24b8d02cc3060b36 *src/init.c

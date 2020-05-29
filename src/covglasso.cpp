@@ -139,13 +139,15 @@ Rcpp::List covglassopath_bic(arma::mat S, arma::cube lambda, arma::mat start, in
   arma::uvec par;
   arma::uvec npar(L);
   arma::vec loglik(L);
+  int V = S.n_rows;
+
 
   for ( int l = 0; l < L; l++ ) {
     fit = covglasso(S, lambda.slice(l), start, n, tolout, tolin, iterout, iterin);
     out[l] = fit;
     arma::mat sigma = fit["sigma"];
     par = find(sigma);
-    npar(l) = par.n_elem;
+    npar(l) = (par.n_elem - V)/2.0 + V;
     loglik(l) = fit["loglik"];
   }
 
