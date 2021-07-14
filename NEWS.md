@@ -1,3 +1,7 @@
+# covglasso 1.0.3
+
+- Minor bug fixes.
+
 # covglasso 1.0.2
 
 - Minor bug fixes.

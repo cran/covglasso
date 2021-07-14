@@ -9,7 +9,7 @@ Set control parameters of the coordinate descent algorithm for the graphical las
 }
 
 \usage{
-control(iter.out = 1000, iter.in = 100, tol.out = 1e-03, tol.in = 1e-02)
+control(iter.out = 1e04, iter.in = 1e03, tol.out = 1e-04, tol.in = 1e-03)
 }
 
 

@@ -11,7 +11,7 @@
 \section{How to cite this package}{
 To cite \pkg{covglasso} in publications use:
 \preformatted{
-Fop, M. (2020). covglasso: Sparse Covariance Matrix Estimation, R package version 1.0,
+Fop, M. (2021). covglasso: Sparse Covariance Matrix Estimation, R package version 1.0.3,
 https://CRAN.R-project.org/package=covglasso
 }}
 

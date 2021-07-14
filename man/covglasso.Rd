@@ -14,7 +14,7 @@ covglasso(data = NULL,
           duplicated = TRUE,
           L = 10,
           crit = c("bic", "ebic"),
-          gamma = 0.8,
+          gamma = 0.5,
           penalize.diag = FALSE,
           start = NULL,
           ctrl = control(),
@@ -38,7 +38,7 @@ covglasso(data = NULL,
 
 \item{crit}{The model selection criterion employed to select the optimal covariance graph model. Can be \code{"bic"} or \code{"ebic"}; see "Details".}
 
-\item{gamma}{A penalty parameter used when \code{crit = "ebic"} and EBIC is used to select the optimal graph covariance model. The value of \code{gamma} must be in the range \code{[0,1]}. Default is \code{gamma = 0.8}, which encourages sparser models.}
+\item{gamma}{A penalty parameter used when \code{crit = "ebic"} and EBIC is used to select the optimal graph covariance model. The value of \code{gamma} must be in the range \code{[0,1]}. Default is \code{gamma = 0.5}, which encourages sparser models.}
 
 \item{penalize.diag}{A logical argument indicating if the diagonal of the covariance matrix should be penalized. Default to \code{FALSE}.}
 
@@ -71,7 +71,7 @@ subject to \eqn{\Sigma}{Sigma} being positive definite. In the penalty term, the
 
 By default (when \code{lambda = NULL}), the penalization matrix \eqn{\Lambda}{lambda} is defined in terms of a sequential thresholding of the sample correlation matrix. Given \eqn{\rho_l}{rho[l]} a threshold value and \eqn{R}{R} the sample correlation matrix, the penalty term matrix \eqn{\Lambda}{lambda} is defined by the values \eqn{(1/s_{ij})I(r_{ij} < \rho_l)}{ifelse(r[i,j] < rho[l], 1/s[i,j], 0)}, that is:
 \deqn{\Lambda = \frac{1}{S}I(R < \rho_l)}{lambda = ifelse(R < rho[l], 1/S, 0)}
-where the inequality is taken elemntwise. Such choice of penalty matrix provides a framework related to the method of Chaudhuri et al. (2007).
+where the inequality is taken elementwise. Such choice of penalty matrix provides a framework related to the adaptive lasso of Fan et al. (2009) and the method of Chaudhuri et al. (2007).
 If the vector \code{rho} is not given in input, the sequence of threshold values is defined as the \code{L} quantiles of the absolute values of the sample correlations in \eqn{R}{R}. If \code{lambda} is provided in input, the penalization corresponds to the standard covariance graphical lasso of Bien, Tibshirani (2011).
 
 The sparse covariance matrix corresponds to a Gaussian covariance graphical model of marginal independence, where in the sparse covariance matrix a zero entry corresponds to two variables being marginally independent. Different penalizations \code{lambda} imply different models, and selection of the optimal graphical model is performed using \code{"bic"} (default) or \code{"ebic"}. In the latter case, the argument \code{gamma} controls the additional penalty term in the model selection criterion; see Foygel, Drton, (2010).
@@ -81,13 +81,13 @@ The sparse covariance matrix corresponds to a Gaussian covariance graphical mode
 \examples{
 # a simple example with a 3-block diagonal matrix
 library(MASS)
-v <- 3
+p <- 3
 n <- 300
-sig <- matrix(0.8, v,v)
+sig <- matrix(0.8, p,p)
 diag(sig) <- 1
 set.seed(190188)
-tmp <- replicate( 3, mvrnorm(n, rep(0,v), sig) )
-x <- matrix(c(tmp), n, v*3)
+tmp <- replicate( 3, mvrnorm(n, rep(0,p), sig) )
+x <- matrix(c(tmp), n, p*3)
 
 fit1 <- covglasso(x)
 plot(fit1$rho, fit1$BIC)
@@ -118,33 +118,6 @@ plot(fit2$rho, fit2$BIC, main = "EBIC")
 image(fit1$sigma != 0, col = c("white", "black"), main = "BIC")
 image(fit2$sigma != 0, col = c("white", "black"), main = "EBIC")
 par(oldpar)  # reset par
-
-\donttest{
-# a more complex situation
-library(mixggm)
-
-V <- 20
-M <- choose(V, 2)
-n <- 200
-rand <- rbinom(M, 1, 0.4)
-graph <- matrix(0, V,V)
-graph[upper.tri(graph)] <- rand
-graph <- graph + t(graph)
-sigma <- matrix(0.8, V,V)
-diag(sigma) <- 1
-sigma <- fitGGM(data = NULL, S = sigma, n, graph = graph)$sigma
-x <- mvrnorm(n, rep(0, V), sigma)
-
-fit <- covglasso(x, L = 50)
-plot(fit$rho, fit$BIC)
-
-oldpar <- par(no.readonly = TRUE)
-par(mfrow = c(1,2))
-cols <- c("white", grey.colors(10, start = 0, end = 0.7, rev = TRUE))
-image(fit$sigma, main = "Fitted", col = cols)
-image(sigma, main = "Actual", col = cols)
-par(oldpar)   # reset par
-}
 }
 
 
@@ -152,6 +125,8 @@ par(oldpar)   # reset par
 Bien, J., Tibshirani, R.J. (2011). Sparse estimation of a covariance matrix. \emph{Biometrika}, 98(4), 807–820.
 
 Chaudhuri, S., Drton M., Richardson, T. S. (2007). Estimation of a covariance matrix with zeros. \emph{Biometrika}, 94(1), 199-216.
+
+Fan, J., Feng, Y., Wu, Y. (2009). Network exploration via the adaptive lasso and scad penalties. \emph{The Annals of Applied Statistics}, 3(2), 521.
 
 Foygel, R., Drton, M. (2010). Extended Bayesian information criteria for Gaussian graphical models. In \emph{Advances in neural information processing systems}, pages 604–612.
 

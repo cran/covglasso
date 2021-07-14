@@ -6,7 +6,7 @@ covglasso <- function(data = NULL,
                       duplicated = TRUE,
                       L = 10,
                       crit = c("bic", "ebic"),
-                      gamma = 0.8,
+                      gamma = 0.5,
                       penalize.diag = FALSE,
                       start = NULL,
                       ctrl = control(),
@@ -36,7 +36,7 @@ covglasso <- function(data = NULL,
       L <- length(rho)
     }
     lambda <- lapply( 1:L, function(l) {
-      temp <- ifelse(R < rho[l], (1/SS), 0)
+      temp <- ifelse(R < rho[l], (1/SS), 0)    # adaptive lasso - Zou 2006 / Bien, Tibshirani 2011
       if ( !penalize.diag ) diag(temp) <- 0
       return(temp) } )
     lambda <- array( unlist(lambda), dim = c(V,V,L) )

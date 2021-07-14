@@ -56,3 +56,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_covglasso_profileloglik", (DL_FUNC) &_covglasso_profileloglik, 3},
+    {"_covglasso_covglasso", (DL_FUNC) &_covglasso_covglasso, 8},
+    {"_covglasso_covglassopath_bic", (DL_FUNC) &_covglasso_covglassopath_bic, 9},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_covglasso(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}
